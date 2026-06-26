@@ -7,29 +7,50 @@ public class Snake_Zug {
     private int anzKoerperZellen; //Körperzellen der Snake
     private int speed;//Schnelligkeit der Snake
     private int size;
-    private int width;
-    private int height;
     //create Integer ArrayList
-    ArrayList<Zelle> zelle = new ArrayList<>();
+    private ArrayList<Zelle> zelle = new ArrayList<>();
+    Zelle kopf = zelle.get(0);
+    //Steuering
+    Steuerung steuerung = new Steuerung();
 
-    Snake_Zug(int speed, int anzKoerperZellen, int i) { //Konstruktor
+    Snake_Zug(int speed, int anzKoerperZellen) { //Konstruktor
         this.speed = speed;
         this.anzKoerperZellen = anzKoerperZellen;
+        for(int i = 0; i < 3; i++) zelle.add(new Zelle(50 - i, 50 - i));
     }
 
-    void laufen() {
+    void laufen(Steuerung steuerung) {
         for (Zelle value : zelle) {
             value.setPreviousX(value.getX());
             value.setPreviousY(value.getY());
         }
+
+        switch(steuerung.getRichtung()){
+            case KeyEvent.VK_LEFT:
+                for(int i = 0; i < zelle.size() - 1; i++){
+
+                }
+                break;
+
+            case KeyEvent.VK_RIGHT:
+                // nach rechts bewegen
+                break;
+
+            case KeyEvent.VK_UP:
+                // nach oben bewegen
+                break;
+
+            case KeyEvent.VK_DOWN:
+                // nach unten bewegen
+                break;
+        }
     }
 
-    public boolean addBodyPart() {
-
+    public void addBodyPart() {
         zelle.add(new Zelle(zelle.getLast().getPreviousX(), zelle.getLast().getPreviousY()));
-        return true;
     }
 
-
-
+    public void resetBodyParts(){
+        if (zelle.size() >= 4) zelle.subList(3, zelle.size()).clear();
+    }
 }

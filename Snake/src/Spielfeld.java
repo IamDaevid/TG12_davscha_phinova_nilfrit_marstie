@@ -2,53 +2,48 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Spielfeld extends JFrame {
+
     public final int breite = 800;
     public final int hoehe = 600;
 
-    Verspätung verspätung = new Verspätung();
+    public Spielfeld() {
+        setTitle("Zug Snake");
+        setSize(breite, hoehe);
+        setLocationRelativeTo(null); // Fenster mittig anzeigen
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    Spielfeld(String string) {
-        System.out.println("Hallo");
-        JFrame frame = new JFrame();
-        frame.setSize(breite, hoehe);
-        frame.setTitle("Zug Snake");
-        frame.setLocation(400, 300);
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //background
-        frame.getContentPane().setBackground(Color.RED);
-        frame.setContentPane(new MyPanel());
-        frame.setVisible(true);
+        // Hintergrund-Panel setzen
+        setContentPane(new MyPanel());
 
-        //Verspätungen spawnen
-        verspätung.verspätungErstellen();
-
+        setVisible(true);
     }
 
+    // Panel für den Hintergrund
+    static class MyPanel extends JPanel {
 
-    protected void paintCombonent(Graphics graphics){
-        graphics.setColor(Color.BLUE);
-        graphics.fillOval((int) verspätung.x, (int) verspätung.y, breite, hoehe);
-    }
+        private final Image bg;
 
-
-    //background
-    public class MyPanel extends JPanel {
-
-        Image bg = new ImageIcon("/images/background.png").getImage();
+        public MyPanel() {
+            ImageIcon icon = new ImageIcon(
+                    MyPanel.class.getResource("background.png")
+            );
+            bg = icon.getImage();
+        }
 
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+
+            if (bg != null) {
+                g.drawImage(bg, 100, 100, getWidth(), getHeight(), this);
+            } else {
+                g.setColor(Color.RED);
+                g.drawString("Bild 'background.png' nicht gefunden!", 20, 20);
+            }
         }
     }
 
-
-
-    Spielfeld() {
-
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(Spielfeld::new);
     }
-
-
 }
-
